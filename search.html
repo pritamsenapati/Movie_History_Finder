@@ -1,0 +1,350 @@
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('https://via.placeholder.com/1500x800/000000/000000?text=Movie+Theater+Background'); /* Placeholder for a dark movie theater image */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7); /* Dark overlay for better readability */
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3), 0 0 40px rgba(0, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .icon {
+            font-size: 3em;
+            color: #00ffff;
+            margin-right: 10px;
+            line-height: 1;
+        }
+
+        .icon img {
+            height: 1em; /* Adjust as needed */
+            width: auto;
+            vertical-align: middle;
+        }
+
+        .title {
+            color: #00ffff;
+            font-size: 2.2em;
+            font-weight: 700;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        .subtitle {
+            color: #bbb;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .search-input {
+            flex-grow: 1;
+            padding: 12px 18px;
+            border-radius: 8px;
+            border: 1px solid #00ffff;
+            background-color: #333;
+            color: #eee;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .search-input::placeholder {
+            color: #888;
+        }
+
+        .search-input:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .search-button {
+            background-color: #00ffff;
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #33ffff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
+
+        .add-movie-button {
+            background-color: transparent;
+            color: #00ffff;
+            border: 2px solid #00ffff;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s, box-shadow 0.3s;
+        }
+
+        .add-movie-button:hover {
+            background-color: rgba(0, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+        }
+
+        .add-movie-button span {
+            font-size: 1.5em; /* For the plus icon */
+            line-height: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="icon">
+                <img src="https://www.svgrepo.com/show/523956/movie-camera.svg" alt="Movie Camera Icon" style="filter: drop-shadow(0 0 5px #00ffff);">
+            </div>
+            <h1 class="title">Movie Finder</h1>
+        </div>
+        <p class="subtitle">Search any movie & explore its details instantly.</p>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search movies...">
+            <button class="search-button">Search</button>
+        </div>
+        <button class="add-movie-button">
+            <span>+</span> Add Movie
+        </button>
+    </div>
+
+    <div style="position: absolute; bottom: 0; width: 100%; height: 20%; background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)); z-index: 0;"></div>
+    <div style="position: absolute; bottom: 0; width: 100%; height: 15%; background: rgba(0,0,0,0.6); z-index: 0; display: flex; justify-content: center; align-items: flex-end;">
+        <div style="width: 80%; height: 100%; position: relative; overflow: hidden;">
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 100px; filter: blur(3px);">
+                <div style="display: flex; justify-content: space-around; padding: 0 10%;">
+                    <div style="width: 50px; height: 50px; background-color: #222; border-radius: 50%; opacity: 0.7;"></div>
+                    <div style="width: 50px; height: 50px; background-color: #222; border-radius: 50%; opacity: 0.7;"></div>
+                    <div style="width: 50px; height: 50px; background-color: #222; border-radius: 50%; opacity: 0.7;"></div>
+                    <div style="width: 50px; height: 50px; background-color: #222; border-radius: 50%; opacity: 0.7;"></div>
+                    <div style="width: 50px; height: 50px; background-color: #222; border-radius: 50%; opacity: 0.7;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Movie Finder</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url(https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1920&q=80) no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+
+.movie-finder-box {
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+    padding: 30px 40px;
+    text-align: center;
+    max-width: 400px;
+    color: #00e5ff;
+}
+
+
+.title {
+    font-size: 2em;
+    font-weight: 900;
+    color: #00e5ff;
+    margin: 0 0 5px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon {
+    width: 38px;
+    height: 38px;
+}
+
+
+.subtitle {
+    color: #ffffffcc;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+
+.search-container input[type="text"] {
+    background-color: #333;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 15px;
+    color: #bbb;
+    font-size: 1em;
+    width: 230px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.search-container input[type="text"]::placeholder {
+    color: #777;
+}
+
+.search-container input[type="text"]:focus {
+    outline: none;
+    background-color: #1c1c1c;
+    color: #e0f7fa;
+}
+
+
+.search-container button {
+    background-color: #00e5ff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    color: #000;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.search-container button:hover {
+    background-color: #00c9e0;
+}
+
+
+.add-movie-btn {
+    border: 1px solid #00e5ff;
+    background: transparent;
+    color: #00e5ff;
+    font-weight: 700;
+    font-size: 1em;
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.add-movie-btn:hover {
+    background-color: #00e5ff;
+    color: #000;
+}
+
+
+.plus-icon {
+    color: #8054eb;
+    font-size: 1.3em;
+}</style>
+</head>
+<body>
+  <div class="container">
+    <div class="movie-finder-box">
+        <h1 class="title">
+            <img src="https://img.icons8.com/emoji/48/null/clapper-board-emoji.png"
+                alt="Clapperboard" class="icon" />
+            <span>Movie Finder</span>
+        </h1>
+
+        <p class="subtitle">Search any movie & explore its details instantly.</p>
+
+
+        <form method="POST" action="/search" class="search-container">
+            <input type="text" name="query" placeholder="Search movies..." required />
+            <button type="submit">Search</button>
+        </form>   
+        <a href="{{ url_for('add_movie') }}" class="add-movie-btn">
+            <span class="plus-icon">+</span> Add Movie
+        </a>
+    </div>
+</div>
+
+    </div>
+</body>
+</html>

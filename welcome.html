@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to Movie Finder</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, rgba(10, 10, 40, 0.9), rgba(0, 0, 70, 0.9)),
+                  url("https://as2.ftcdn.net/v2/jpg/01/20/13/21/1000_F_120132150_Qbeyt5AwXKM7XWlHLBi9UWIUsXVrmUc2.jpg") center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 20px #007bff; }
+      50% { box-shadow: 0 0 50px #00d0ff; }
+      100% { box-shadow: 0 0 20px #007bff; }
+    }
+
+
+    .welcome-card {
+      background: rgba(0, 0, 0, 0.75);
+      padding: 60px 80px;
+      border-radius: 20px;
+      text-align: center;
+      color: white;
+      backdrop-filter: blur(12px);
+      border: 2px solid rgba(0, 200, 255, 0.5);
+      animation: pulseGlow 3s infinite ease-in-out;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .welcome-card:hover {
+      transform: scale(1.05);
+    }
+
+    .welcome-card h1 {
+      font-size: 2.8rem;
+      color: #00d0ff;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px #00d0ff, 0 0 25px #007bff;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-btn {
+      text-decoration: none;
+      background: linear-gradient(90deg, #007bff, #00d0ff);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: 0.3s ease;
+      box-shadow: 0 0 15px #007bff;
+    }
+
+    .login-btn:hover {
+      background: linear-gradient(90deg, #00d0ff, #007bff);
+      box-shadow: 0 0 25px #00d0ff;
+      transform: scale(1.1);
+    }
+
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .welcome-card {
+      animation: float 4s ease-in-out infinite, pulseGlow 3s infinite ease-in-out;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="welcome-card">
+    <h1>Welcome to Movie Finder</h1>
+    <a href="{{ url_for('login') }}" class="login-btn">Login to Start Searching</a>
+  </div>
+</body>
+</html>

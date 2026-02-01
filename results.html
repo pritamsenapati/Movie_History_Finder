@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results for "{{ query }}"</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<style>
+
+:root {
+    --primary-bg: #2A5B4F;
+    --content-bg: rgba(255, 255, 255, 0.15);
+    --card-bg: rgba(255, 255, 255, 0.12);
+    --text-color: #fff;
+    --heading-color: #00eaff;
+    --primary-accent: #00eaff;
+    --border-radius: 14px;
+    --box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+}
+
+
+body {
+    margin: 0;
+    padding: 30px;
+    font-family: "Poppins", sans-serif;
+
+    background-image: url("https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1920&q=80");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    position: relative;
+}
+
+
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(3px);
+    z-index: -1;
+}
+
+.container {
+    width: 100%;
+    max-width: 1100px;
+}
+
+
+.results-header {
+    background: var(--content-bg);
+    padding: 20px 30px;
+    border-radius: var(--border-radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+
+    backdrop-filter: blur(12px);
+    box-shadow: var(--box-shadow);
+    transition: 0.4s ease;
+}
+
+.results-header:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px var(--primary-accent);
+}
+
+.results-header h1 {
+    margin: 0;
+    color: var(--heading-color);
+    font-size: 1.8rem;
+}
+
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.55);
+    transform: scale(1.08);
+}
+
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 25px;
+}
+
+
+.movie-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    backdrop-filter: blur(14px);
+
+    transition: 0.4s ease;
+    transform: translateY(0);
+}
+
+
+.movie-card:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 20px var(--primary-accent);
+}
+
+.movie-card h3 {
+    margin-top: 0;
+    color: var(--heading-color);
+}
+
+
+.no-results {
+    background: var(--content-bg);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    backdrop-filter: blur(12px);
+    grid-column: 1 / -1;
+    color: #fff;
+}
+</style>
+<body>
+    <div class="container">
+        <header class="results-header">
+            <h1>Results for "{{ query }}"</h1>
+            <a href="{{ url_for('search') }}" class="btn-secondary">⬅ New Search</a>
+        </header>
+
+        <section class="results-grid">
+
+            {% if movies %}
+                {% for movie in movies %}
+                <div class="movie-card">
+                    <h3>{{ movie.names }} ({{ movie.year }})</h3>
+                    <p><strong>Genre:</strong> {{ movie.genre }}</p>
+                    <p><strong>IMDb Score:</strong> {{ movie.score }} / 10</p>
+                    <p><strong>Director:</strong> {{ movie.director }}</p>
+                    <p><strong>Stars:</strong> {{ movie.star }}</p>
+                    <p><strong>Runtime:</strong> {{ movie.runtime }} min</p>
+                    <p><strong>Company:</strong> {{ movie.company }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="card no-results">
+                    <p>😞 No movies found matching "{{ query }}". Please try another search.</p>
+                </div>
+            {% endif %}
+        </section>
+    </div>
+</body>
+</html>
